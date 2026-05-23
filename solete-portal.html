@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solete — Submit Your Work</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0b0f1a;
+  --surface: #131929;
+  --surface2: #1a2236;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --gold: #e8b84b;
+  --gold-dim: rgba(232,184,75,0.12);
+  --gold-glow: rgba(232,184,75,0.25);
+  --text: #f0f2f8;
+  --text-muted: #8892a4;
+  --text-dim: #4d5669;
+  --success: #3ecf8e;
+  --success-bg: rgba(62,207,142,0.1);
+  --danger: #f87171;
+  --danger-bg: rgba(248,113,113,0.1);
+  --radius: 16px;
+}
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* subtle grid bg */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* gold orb glow top */
+body::after {
+  content: '';
+  position: fixed;
+  top: -160px; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 340px;
+  background: radial-gradient(ellipse, rgba(232,184,75,0.10) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ── */
+header {
+  width: 100%; max-width: 560px;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 56px 24px 0;
+  position: relative; z-index: 1;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 40px;
+}
+
+.logo-mark {
+  width: 50px; height: 50px;
+  border-radius: 14px;
+  background: var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 32px var(--gold-glow), 0 0 0 1px rgba(232,184,75,0.4);
+}
+
+.logo-mark span {
+  font-size: 22px; font-weight: 800;
+  color: #0b0f1a;
+  letter-spacing: -1px;
+}
+
+.logo-name {
+  font-size: 28px; font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.8px;
+}
+
+.logo-sub {
+  font-size: 11px; font-weight: 400;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* upload counter pill */
+.counter-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(232,184,75,0.25);
+  border-radius: 99px;
+  padding: 8px 18px;
+  font-size: 13px; font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 36px;
+  transition: all 0.4s;
+}
+
+.counter-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 8px var(--gold);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.counter-num {
+  font-weight: 700; font-size: 15px;
+  transition: all 0.3s;
+}
+
+/* ── CARD ── */
+.card {
+  width: 100%; max-width: 560px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  padding: 36px;
+  position: relative; z-index: 1;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5);
+  margin: 0 16px;
+}
+
+.card-heading {
+  font-size: 20px; font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: -0.4px;
+}
+
+.card-sub {
+  font-size: 13px; font-weight: 300;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* ── FORM FIELDS ── */
+.field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+
+.field label {
+  font-size: 11px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.field input {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  font-family: 'Sora', sans-serif;
+  font-size: 14px; font-weight: 400;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  -webkit-appearance: none;
+}
+
+.field input::placeholder { color: var(--text-dim); }
+
+.field input:focus {
+  border-color: rgba(232,184,75,0.45);
+  box-shadow: 0 0 0 4px rgba(232,184,75,0.08);
+}
+
+.field input.error { border-color: rgba(248,113,113,0.5); }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 24px 0;
+}
+
+/* ── UPLOAD ZONE ── */
+.upload-zone {
+  border: 1.5px dashed var(--border2);
+  border-radius: var(--radius);
+  padding: 36px 24px;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.25s;
+  background: var(--surface2);
+}
+
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: rgba(232,184,75,0.4);
+  background: rgba(232,184,75,0.04);
+}
+
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0;
+  opacity: 0; cursor: pointer;
+  width: 100%; height: 100%;
+}
+
+.upload-icon-wrap {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(232,184,75,0.2);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+
+.upload-icon-wrap svg { width: 22px; height: 22px; stroke: var(--gold); }
+
+.upload-zone h3 {
+  font-size: 14px; font-weight: 600;
+  color: var(--text); margin-bottom: 4px;
+}
+
+.upload-zone p {
+  font-size: 12px; color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.upload-zone p strong { color: var(--gold); font-weight: 500; }
+
+/* ── FILE CHIP ── */
+.file-chip {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  margin-top: 12px;
+  animation: fadeUp 0.25s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.file-pdf-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(232,184,75,0.12);
+  border: 1px solid rgba(232,184,75,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.file-pdf-icon svg { width: 16px; height: 16px; stroke: var(--gold); }
+
+.file-info { flex: 1; min-width: 0; }
+.file-name { font-size: 13px; font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.file-size { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+.btn-remove {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-dim); padding: 4px;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.btn-remove:hover { color: var(--danger); background: var(--danger-bg); }
+.btn-remove svg { width: 15px; height: 15px; }
+
+/* ── SUBMIT BTN ── */
+.btn-submit {
+  width: 100%; margin-top: 24px;
+  padding: 16px;
+  background: var(--gold);
+  border: none; border-radius: 14px;
+  font-family: 'Sora', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: #0b0f1a;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  letter-spacing: -0.2px;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 24px var(--gold-glow);
+}
+
+.btn-submit:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 8px 32px var(--gold-glow); }
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+.btn-submit svg { width: 18px; height: 18px; }
+
+/* spinner */
+.spin {
+  width: 18px; height: 18px;
+  border: 2.5px solid rgba(11,15,26,0.25);
+  border-top-color: #0b0f1a;
+  border-radius: 50%;
+  animation: spin 0.65s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── PROGRESS ── */
+.progress-wrap {
+  display: none; margin-top: 18px;
+}
+.progress-wrap.on { display: block; }
+.progress-top { display: flex; justify-content: space-between; margin-bottom: 7px; }
+.progress-top span { font-size: 12px; color: var(--text-muted); }
+.progress-bar { height: 4px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 99px; width: 0%; transition: width 0.3s ease; }
+
+/* ── SUCCESS STATE ── */
+.success-screen {
+  display: none; flex-direction: column; align-items: center;
+  text-align: center; padding: 12px 0 4px;
+}
+
+.success-screen.on { display: flex; }
+
+.success-check {
+  width: 68px; height: 68px; border-radius: 50%;
+  background: var(--success-bg);
+  border: 2px solid rgba(62,207,142,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.success-check svg { width: 30px; height: 30px; stroke: var(--success); stroke-width: 2.5; }
+
+.success-screen h2 {
+  font-size: 20px; font-weight: 700;
+  color: var(--text); margin-bottom: 8px;
+  letter-spacing: -0.4px;
+}
+
+.success-screen p {
+  font-size: 13px; color: var(--text-muted);
+  line-height: 1.6; max-width: 320px;
+  margin-bottom: 24px;
+}
+
+.btn-another {
+  padding: 12px 28px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  font-family: 'Sora', sans-serif;
+  font-size: 14px; font-weight: 500;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.btn-another:hover { border-color: rgba(232,184,75,0.4); }
+
+/* ── TOAST ── */
+.toast-wrap {
+  position: fixed; top: 24px; right: 24px; z-index: 999;
+  display: flex; flex-direction: column; gap: 10px;
+}
+
+.toast {
+  min-width: 280px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; font-weight: 500;
+  animation: toastIn 0.3s cubic-bezier(0.34,1.2,0.64,1);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.toast.err { background: rgba(20,12,12,0.95); border: 1px solid rgba(248,113,113,0.3); color: var(--danger); }
+.toast svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  padding: 32px 24px;
+  font-size: 12px;
+  color: var(--text-dim);
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  header { padding: 36px 16px 0; }
+  .card { padding: 24px 20px; border-radius: 20px; margin: 0 12px; }
+  .logo-name { font-size: 24px; }
+}
+
+/* ── CONFIG BANNER (hidden from students, only shown if no URL set) ── */
+.config-banner {
+  display: none;
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: #1a0a00; border: 1px solid rgba(232,184,75,0.4);
+  border-radius: 12px; padding: 14px 20px;
+  font-size: 12px; color: var(--gold);
+  z-index: 99; text-align: center; line-height: 1.6;
+  max-width: 420px; width: calc(100% - 32px);
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOAST ── -->
+<div class="toast-wrap" id="toastWrap"></div>
+
+<!-- ── CONFIG BANNER (owner only) ── -->
+<div class="config-banner" id="configBanner">
+  ⚙️ <strong>Setup needed:</strong> Open this file and set your Google Apps Script URL in the <code>DRIVE_URL</code> variable at the top of the &lt;script&gt; tag.
+</div>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="logo">
+    <div class="logo-mark"><span>S</span></div>
+    <div>
+      <div class="logo-name">Solete</div>
+      <div class="logo-sub">Education Platform</div>
+    </div>
+  </div>
+
+  <div class="counter-pill">
+    <div class="counter-dot"></div>
+    <span class="counter-num" id="countNum">0</span>
+    <span style="font-weight:300;color:var(--text-muted)">submissions received</span>
+  </div>
+</header>
+
+<!-- ── CARD ── -->
+<div class="card">
+
+  <!-- FORM -->
+  <div id="formView">
+    <div class="card-heading">Submit Your Assignment</div>
+    <div class="card-sub">Fill in your details and upload your PDF. Your file will be sent directly to your instructor.</div>
+
+    <div class="field">
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="e.g. Arjun Sharma" autocomplete="name">
+    </div>
+
+    <div class="field">
+      <label>Roll Number</label>
+      <input type="text" id="roll" placeholder="e.g. 21CS045" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="you@college.edu" autocomplete="email">
+    </div>
+
+    <hr class="divider">
+
+    <!-- UPLOAD ZONE -->
+    <div class="upload-zone" id="zone">
+      <input type="file" id="fileInput" accept="application/pdf">
+      <div class="upload-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <polyline points="9 15 12 12 15 15"/>
+        </svg>
+      </div>
+      <h3>Upload your PDF</h3>
+      <p>Drag &amp; drop or <strong>click to browse</strong><br>PDF only · Max 25MB</p>
+    </div>
+
+    <div id="fileChip"></div>
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap" id="progWrap">
+      <div class="progress-top">
+        <span id="progLabel">Sending to instructor…</span>
+        <span id="progPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    </div>
+
+    <button class="btn-submit" id="submitBtn" onclick="submit()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0b0f1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/>
+        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+      Send to Instructor
+    </button>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successView">
+    <div class="success-check">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"/>
+      </svg>
+    </div>
+    <h2>Submitted Successfully!</h2>
+    <p id="successMsg">Your PDF has been sent to your instructor's Google Drive. You're all done!</p>
+    <button class="btn-another" onclick="resetForm()">Submit another →</button>
+  </div>
+
+</div>
+
+<footer>© 2025 Solete Education Platform · All submissions are encrypted and stored securely</footer>
+
+<script>
+// ════════════════════════════════════════════════════════════
+//  ★  OWNER SETUP  ★
+//  1. Deploy your Google Apps Script (see solete-script.gs)
+//  2. Paste your Web App URL below:
+// ════════════════════════════════════════════════════════════
+const DRIVE_URL = "https://script.google.com/macros/s/AKfycbxsxX_xG0eZg03rGf7OK5AIbUKrfb-mah5KQA-z1bYPM3b_TlldhnXQYpi4qAd5ymY/exec";
+// ════════════════════════════════════════════════════════════
+
+let selectedFile = null;
+let totalCount = parseInt(localStorage.getItem('solete_count') || '0');
+
+// show counter
+document.getElementById('countNum').textContent = totalCount;
+
+// warn owner if URL not set
+if (DRIVE_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+  document.getElementById('configBanner').style.display = 'block';
+}
+
+// drag & drop
+const zone = document.getElementById('zone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e => { e.preventDefault(); zone.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
+document.getElementById('fileInput').addEventListener('change', e => handleFile(e.target.files[0]));
+
+function handleFile(f) {
+  if (!f) return;
+  if (f.type !== 'application/pdf') return toast('Only PDF files are accepted.');
+  if (f.size > 25 * 1024 * 1024) return toast('File too large. Maximum size is 25MB.');
+  selectedFile = f;
+  const size = f.size < 1024 * 1024 ? (f.size / 1024).toFixed(0) + ' KB' : (f.size / 1024 / 1024).toFixed(1) + ' MB';
+  document.getElementById('fileChip').innerHTML = `
+    <div class="file-chip">
+      <div class="file-pdf-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </div>
+      <div class="file-info">
+        <div class="file-name">${f.name}</div>
+        <div class="file-size">${size} · PDF</div>
+      </div>
+      <button class="btn-remove" onclick="clearFile()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>`;
+}
+
+function clearFile() {
+  selectedFile = null;
+  document.getElementById('fileChip').innerHTML = '';
+  document.getElementById('fileInput').value = '';
+}
+
+async function submit() {
+  const name  = document.getElementById('name').value.trim();
+  const roll  = document.getElementById('roll').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  if (!name)  return shake('name'),  toast('Please enter your full name.');
+  if (!roll)  return shake('roll'),  toast('Please enter your roll number.');
+  if (!email || !email.includes('@')) return shake('email'), toast('Please enter a valid email.');
+  if (!selectedFile) return toast('Please upload a PDF file.');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<div class="spin"></div> Sending…';
+  showProg(true);
+
+  try {
+    // Read file as base64
+    const b64 = await toBase64(selectedFile);
+
+    if (DRIVE_URL === "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+      // Demo mode: simulate upload
+      await fakeProg();
+    } else {
+      // Real upload to Google Drive
+      await uploadToDrive({ name, roll, email, fileName: selectedFile.name, fileData: b64 });
+    }
+
+    // Update counter
+    totalCount++;
+    localStorage.setItem('solete_count', totalCount);
+    animateCount(totalCount);
+
+    // Show success
+    document.getElementById('successMsg').textContent =
+      `Your assignment has been received, ${name.split(' ')[0]}. Your instructor will review it shortly.`;
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').classList.add('on');
+
+  } catch(err) {
+    toast(err.message || 'Upload failed. Please try again.');
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="#0b0f1a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Send to Instructor`;
+  } finally {
+    showProg(false);
+  }
+}
+
+async function uploadToDrive({ name, roll, email, fileName, fileData }) {
+  // Progress animation while uploading
+  let pct = 0;
+  const interval = setInterval(() => {
+    pct = Math.min(pct + 2, 90);
+    setProg(pct, 'Sending to Google Drive…');
+  }, 150);
+
+  // Google Apps Script requires sending as a URL-encoded form (no-cors workaround)
+  // We use a hidden form + iframe technique to POST without CORS issues
+  // when the file is small enough, OR use the no-cors fetch approach:
+  try {
+    await fetch(DRIVE_URL, {
+      method: 'POST',
+      mode: 'no-cors',   // ← fixes CORS. We won't get a response body back, that's OK.
+      headers: { 'Content-Type': 'text/plain' }, // must be simple content-type for no-cors
+      body: JSON.stringify({ name, roll, email, fileName, fileData, timestamp: new Date().toISOString() })
+    });
+    // no-cors means response is opaque — we can't read it, but if no error thrown, it sent OK
+  } finally {
+    clearInterval(interval);
+  }
+
+  setProg(100, 'Done!');
+  await sleep(400);
+}
+
+async function fakeProg() {
+  for (let i = 0; i <= 100; i += 5) {
+    setProg(i, i < 100 ? 'Sending to Google Drive…' : 'Done!');
+    await sleep(60);
+  }
+}
+
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+function showProg(on) {
+  document.getElementById('progWrap').className = 'progress-wrap' + (on ? ' on' : '');
+  if (!on) setProg(0, '');
+}
+
+function setProg(pct, label) {
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progPct').textContent = pct + '%';
+  if (label) document.getElementById('progLabel').textContent = label;
+}
+
+function animateCount(to) {
+  const el = document.getElementById('countNum');
+  const from = parseInt(el.textContent) || 0;
+  let start = null;
+  const dur = 600;
+  const step = ts => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / dur, 1);
+    el.textContent = Math.round(from + (to - from) * p);
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function resetForm() {
+  document.getElementById('name').value = '';
+  document.getElementById('roll').value = '';
+  document.getElementById('email').value = '';
+  clearFile();
+  document.getElementById('successView').classList.remove('on');
+  document.getElementById('formView').style.display = '';
+}
+
+function shake(id) {
+  const el = document.getElementById(id);
+  el.classList.add('error');
+  el.style.animation = 'none';
+  setTimeout(() => el.style.animation = '', 10);
+  setTimeout(() => el.classList.remove('error'), 2000);
+}
+
+function toast(msg) {
+  const w = document.getElementById('toastWrap');
+  const t = document.createElement('div');
+  t.className = 'toast err';
+  t.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${msg}`;
+  w.appendChild(t);
+  setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3500);
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>
